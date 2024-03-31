@@ -1,48 +1,118 @@
 import tkinter as tk
 from tkinter import ttk
-from datetime import datetime
 
+class StoreManagementApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Store Management System")
 
-# Function to update the clock labels with current time, day, and date
-def update_clock():
-    # Get current time, day, and date
-    current_time = datetime.now().strftime('%H:%M:%S')
-    current_day = datetime.now().strftime('%A')
-    current_date = datetime.now().strftime('%Y-%m-%d')
+        # Increase window size
+        self.root.geometry("800x600")
 
-    # Update the clock labels with current time, day, and date
-    clock_label.config(text=current_time)
-    day_label.config(text=current_day)
-    date_label.config(text=current_date)
+        # Create notebook widget
+        self.notebook = ttk.Notebook(root)
+        self.notebook.pack(fill=tk.BOTH, expand=True)
 
-    # Schedule the update_clock function to run again after 1000 milliseconds (1 second)
-    root.after(1000, update_clock)
+        # Create tabs
+        self.product_tab = ttk.Frame(self.notebook)
+        self.customer_tab = ttk.Frame(self.notebook)
+        self.order_tab = ttk.Frame(self.notebook)
 
+        self.notebook.add(self.product_tab, text="Products")
+        self.notebook.add(self.customer_tab, text="Customers")
+        self.notebook.add(self.order_tab, text="Orders")
 
-# Create main Tkinter window
+        # Add widgets to tabs
+        self.create_product_widgets()
+        self.create_customer_widgets()
+        self.create_order_widgets()
+
+    def create_product_widgets(self):
+        product_label = ttk.Label(self.product_tab, text="Product Management", font=('Arial', 24, 'bold'), anchor='center')
+        product_label.pack(pady=10)
+
+        # Entry fields for product credentials
+        product_fields = ["Product ID", "Name", "Price", "Quantity"]
+        self.product_entries = {}
+        for field in product_fields:
+            label = ttk.Label(self.product_tab, text=field + ":", font=('Arial', 14))
+            label.pack()
+            entry = ttk.Entry(self.product_tab, font=('Arial', 14))
+            entry.pack()
+            self.product_entries[field] = entry
+
+        # Button to save product information
+        save_button = ttk.Button(self.product_tab, text="Save", command=self.save_product_info)
+        save_button.pack(pady=10)
+
+    def save_product_info(self):
+        # Retrieve entered product information
+        product_info = {}
+        for field, entry in self.product_entries.items():
+            product_info[field] = entry.get()
+
+        # Print the entered product information (you can save it to a file or database instead)
+        print("Entered Product Information:")
+        for field, value in product_info.items():
+            print(f"{field}: {value}")
+
+    def create_customer_widgets(self):
+        customer_label = ttk.Label(self.customer_tab, text="Customer Management", font=('Arial', 24, 'bold'), anchor='center')
+        customer_label.pack(pady=10)
+
+        # Placeholder for customer credentials
+        customer_credentials = {
+            "customer_id": "456",
+            "name": "Customer Name",
+            "email": "customer@example.com"
+        }
+
+        # Add customer management widgets here
+
+    def create_order_widgets(self):
+        order_label = ttk.Label(self.order_tab, text="Order Management", font=('Arial', 24, 'bold'), anchor='center')
+        order_label.pack(pady=10)
+
+        # Placeholder for order credentials
+        order_credentials = {
+            "order_id": "789",
+            "customer_id": "456",
+            "product_ids": ["123", "124"]
+        }
+
+        def create_customer_widgets(self):
+            customer_label = ttk.Label(self.customer_tab, text="Customer Management", font=('Arial', 24, 'bold'),
+                                       anchor='center')
+            customer_label.pack(pady=10)
+
+            # Entry fields for customer credentials
+            customer_fields = ["Customer ID", "Name", "Email"]
+            self.customer_entries = {}
+            for field in customer_fields:
+                label = ttk.Label(self.customer_tab, text=field + ":", font=('Arial', 14))
+                label.pack()
+                entry = ttk.Entry(self.customer_tab, font=('Arial', 14))
+                entry.pack()
+                self.customer_entries[field] = entry
+
+            # Button to save customer information
+            save_button = ttk.Button(self.customer_tab, text="Save", command=self.save_customer_info)
+            save_button.pack(pady=10)
+
+        def save_customer_info(self):
+            # Retrieve entered customer information
+            customer_info = {}
+            for field, entry in self.customer_entries.items():
+                customer_info[field] = entry.get()
+
+            # Print the entered customer information (you can save it to a file or database instead)
+            print("Entered Customer Information:")
+            for field, value in customer_info.items():
+                print(f"{field}: {value}")
+
+        # Add order management widgets here
+
+# Create main window
 root = tk.Tk()
-root.title("Live Clock By Murtaza")
-
-# Set background color to pink
-root.configure(background='pink')
-
-# Set window size to 400x200 pixels
-root.geometry('800x300')
-
-# Create label to display current time
-clock_label = ttk.Label(root, font=('calibri', 60, 'bold'), background='pink', anchor='center')
-clock_label.pack(fill='both', expand=True)
-
-# Create label to display current day
-day_label = ttk.Label(root, font=('calibri', 30, 'bold'), background='pink', anchor='center')
-day_label.pack(fill='both', expand=True)
-
-# Create label to display current date
-date_label = ttk.Label(root, font=('calibri', 30, 'bold'), background='pink', anchor='center')
-date_label.pack(fill='both', expand=True)
-
-# Call the update_clock function to start updating the clock labels
-update_clock()
-
-# Start the Tkinter event loop
+app = StoreManagementApp(root)
 root.mainloop()
